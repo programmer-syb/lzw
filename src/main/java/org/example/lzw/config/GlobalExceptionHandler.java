@@ -1,6 +1,6 @@
 package org.example.lzw.config;
 
-import org.example.nyh.common.Result;
+import org.example.lzw.common.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
