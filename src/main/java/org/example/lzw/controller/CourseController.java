@@ -194,4 +194,29 @@ public class CourseController {
         }
         return Result.success(resultList);
     }
+    /**
+     * 9. 管理员接口：获取全量课程列表 (包含未发布/待审核的课程，带分页和条件查询)
+     */
+    @GetMapping("/admin/list")
+    public Result<Page<Course>> getAdminCourseList(
+            @RequestParam(defaultValue = "1") Integer current,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) String keyword) {
+
+        Page<Course> page = new Page<>(current, size);
+        LambdaQueryWrapper<Course> wrapper = new LambdaQueryWrapper<>();
+
+        // 按状态过滤 (0-待审核/未发布, 1-已上架)
+        if (status != null) {
+            wrapper.eq(Course::getStatus, status);
+        }
+        // 模糊搜索
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            wrapper.like(Course::getTitle, keyword);
+        }
+
+        wrapper.orderByDesc(Course::getCreateTime);
+        return Result.success(courseService.page(page, wrapper));
+    }
 }

@@ -1,5 +1,7 @@
 package org.example.lzw.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.example.lzw.common.Result;
 import org.example.lzw.entity.CourseResource;
 import org.example.lzw.service.CourseResourceService;
@@ -61,5 +63,31 @@ public class CourseResourceController {
     public Result<String> deleteResource(@PathVariable Long id) {
         boolean removed = resourceService.removeById(id);
         return removed ? Result.success("资源删除成功") : Result.error("资源删除失败");
+    }
+
+    /**
+     * 5. 管理员接口：全局分页获取所有上传的教学资源
+     */
+    @GetMapping("/admin/list")
+    public Result<Page<CourseResource>> getAdminResourceList(
+            @RequestParam(defaultValue = "1") Integer current,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String type) {
+
+        Page<CourseResource> page = new Page<>(current, size);
+        LambdaQueryWrapper<CourseResource> wrapper = new LambdaQueryWrapper<>();
+
+        // 资源名称搜索
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            wrapper.like(CourseResource::getName, keyword);
+        }
+        // 按格式过滤 (video, pdf 等)
+        if (type != null && !type.trim().isEmpty()) {
+            wrapper.eq(CourseResource::getType, type);
+        }
+
+        wrapper.orderByDesc(CourseResource::getCreateTime);
+        return Result.success(resourceService.page(page, wrapper));
     }
 }
