@@ -1,6 +1,7 @@
 package org.example.lzw.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -15,17 +16,19 @@ public class Exam {
     private String title; // 考试名称
     
     private Integer totalScore; // 总分
-    
-    private LocalDateTime startTime; // 开始时间
-    
-    private LocalDateTime endTime; // 结束时间
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime startTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime endTime;
     
     private Integer status; // 状态: 0-未发布, 1-已发布
-    
-    @TableField(fill = FieldFill.INSERT)
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
-    
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
     
     @TableLogic

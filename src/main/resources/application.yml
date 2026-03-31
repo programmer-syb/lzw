@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 2048MB # 单个文件最大限制 (设为1GB)
+      max-request-size: 2048MB # 单次请求最大总限制
   application:
     name: lzw
   datasource:
