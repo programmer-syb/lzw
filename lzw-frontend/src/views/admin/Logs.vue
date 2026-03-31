@@ -2,7 +2,7 @@
     <div class="saas-page" v-loading="loading">
         <div class="page-header">
             <div class="header-left">
-                <h1 class="page-title">Runtime Logs</h1>
+                <h1 class="page-title">运行日志</h1>
                 <p class="page-desc">Monitor API latency, user access traces, and system exceptions.</p>
             </div>
         </div>

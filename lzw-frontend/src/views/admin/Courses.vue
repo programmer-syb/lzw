@@ -2,7 +2,7 @@
     <div class="saas-page" v-loading="loading">
         <div class="page-header">
             <div class="header-left">
-                <h1 class="page-title">Content & Courses</h1>
+                <h1 class="page-title">课程审核</h1>
                 <p class="page-desc">Audit teacher publications and manage platform content compliance.</p>
             </div>
         </div>

@@ -2,8 +2,13 @@
     <div class="saas-page" v-loading="loading">
         <div class="page-header">
             <div class="header-left">
-                <h1 class="page-title">Users Management</h1>
+                <h1 class="page-title">用户管理 (Users)</h1>
                 <p class="page-desc">Manage system access, roles, and account status.</p>
+            </div>
+            <div class="header-right">
+                <button class="saas-btn-primary" @click="openAddTeacherDialog">
+                    <el-icon><Plus /></el-icon> 注册教师账号
+                </button>
             </div>
         </div>
 
@@ -13,7 +18,6 @@
                     <el-radio-button :label="null">All</el-radio-button>
                     <el-radio-button :label="2">Students</el-radio-button>
                     <el-radio-button :label="1">Teachers</el-radio-button>
-                    <el-radio-button :label="0">Admins</el-radio-button>
                 </el-radio-group>
             </div>
             <div class="toolbar-right">
@@ -71,12 +75,30 @@
             <el-pagination v-model:current-page="queryParams.current" v-model:page-size="queryParams.size"
                 layout="prev, pager, next" :total="total" @current-change="fetchUsers" />
         </div>
+
+        <el-dialog v-model="dialogVisible" title="注册新教师" width="400px" class="saas-dialog">
+            <el-form label-position="top">
+                <el-form-item label="登录账号 (Username)">
+                    <el-input v-model="teacherForm.username" placeholder="如：teacher_wang" class="saas-input" />
+                </el-form-item>
+                <el-form-item label="初始密码 (Password)">
+                    <el-input v-model="teacherForm.password" placeholder="设置一个初始密码" type="password" show-password class="saas-input" />
+                </el-form-item>
+                <el-form-item label="教师姓名 (Display Name)">
+                    <el-input v-model="teacherForm.nickname" placeholder="如：王老师" class="saas-input" />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <button class="saas-btn" @click="dialogVisible = false">取消</button>
+                <button class="saas-btn-primary ml-10" @click="handleAddTeacher">确认注册</button>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { Search, Plus } from '@element-plus/icons-vue' // 引入了 Plus 图标
 import { ElMessage } from 'element-plus'
 import request from '../../utils/request'
 
@@ -85,13 +107,18 @@ const userList = ref([])
 const total = ref(0)
 const queryParams = reactive({ current: 1, size: 10, role: null, keyword: '' })
 
+// 新增：控制弹窗和表单数据
+const dialogVisible = ref(false)
+const teacherForm = ref({ username: '', password: '', nickname: '', role: 1, status: 1 })
+
 onMounted(() => fetchUsers())
 
 const fetchUsers = async () => {
     loading.value = true
     try {
         const res = await request.get('/admin/user/list', { params: queryParams })
-        userList.value = res.records
+        // 前端兜底过滤：强制不展示管理员 (role === 0) 账号
+        userList.value = (res.records || []).filter(u => u.role !== 0)
         total.value = res.total
     } catch (error) { } finally { loading.value = false }
 }
@@ -103,6 +130,25 @@ const handleStatusChange = async (row, status) => {
     } catch (error) {
         row.status = status === 1 ? 0 : 1 // 恢复原状
     }
+}
+
+// 新增：打开弹窗
+const openAddTeacherDialog = () => {
+    teacherForm.value = { username: '', password: '', nickname: '', role: 1, status: 1 }
+    dialogVisible.value = true
+}
+
+// 新增：提交注册
+const handleAddTeacher = async () => {
+    if (!teacherForm.value.username || !teacherForm.value.password) {
+        return ElMessage.warning('账号和密码不能为空')
+    }
+    try {
+        await request.post('/admin/user/add', teacherForm.value)
+        ElMessage.success('教师账号注册成功！')
+        dialogVisible.value = false
+        fetchUsers() // 刷新表格
+    } catch (error) { }
 }
 
 const getRoleName = (role) => ({ 0: 'Admin', 1: 'Teacher', 2: 'Student' }[role] || 'Unknown')
@@ -131,6 +177,12 @@ const getRoleClass = (role) => ({ 0: 'badge-black', 1: 'badge-blue', 2: 'badge-g
 .user-username {
     color: #888;
     font-size: 12px;
+}
+
+/* 补充一点右上角布局样式 */
+.header-right {
+    display: flex;
+    align-items: center;
 }
 </style>
 
@@ -209,6 +261,9 @@ const getRoleClass = (role) => ({ 0: 'badge-black', 1: 'badge-blue', 2: 'badge-g
     font-size: 13px;
     cursor: pointer;
     transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .saas-btn-primary:hover {

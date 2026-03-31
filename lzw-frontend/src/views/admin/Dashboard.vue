@@ -1,7 +1,7 @@
 <template>
     <div class="saas-dashboard" v-loading="loading">
         <div class="dashboard-header">
-            <h1 class="page-title">Workspace Overview</h1>
+            <h1 class="page-title">数据概览</h1>
             <p class="page-desc">Real-time statistics for the Lzw education platform.</p>
         </div>
 

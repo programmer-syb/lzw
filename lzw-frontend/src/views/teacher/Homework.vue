@@ -133,6 +133,16 @@ const openPublishDialog = () => {
 }
 
 const handlePublish = async () => {
+    const deadlineTs = new Date(hwForm.value.deadline).getTime()
+    if (!hwForm.value.deadline || Number.isNaN(deadlineTs)) {
+        ElMessage.warning('请填写正确的截止日期')
+        return
+    }
+    if (deadlineTs <= Date.now()) {
+        ElMessage.warning('截止日期必须晚于当前时间')
+        return
+    }
+
     try {
         await request.post('/homework/publish', { ...hwForm.value, courseId: activeCourseId.value })
         ElMessage.success('发布成功')

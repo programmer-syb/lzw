@@ -2,7 +2,7 @@
     <div class="saas-page" v-loading="loading">
         <div class="page-header">
             <div class="header-left">
-                <h1 class="page-title">Storage & Media</h1>
+                <h1 class="page-title">资源存储</h1>
                 <p class="page-desc">Unified management for videos, PDFs, and uploaded assets.</p>
             </div>
             <div class="header-right">

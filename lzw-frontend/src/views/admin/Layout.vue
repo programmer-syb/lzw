@@ -10,45 +10,46 @@
             </div>
 
             <nav class="saas-nav">
-                <div class="nav-section">OVERVIEW</div>
+
+                <div class="nav-section">数据概览</div>
                 <router-link to="/admin/dashboard" class="nav-item" active-class="active">
                     <el-icon>
                         <Odometer />
-                    </el-icon> Dashboard
+                    </el-icon> 统计大屏
                 </router-link>
 
-                <div class="nav-section">MANAGEMENT</div>
+                <div class="nav-section">平台管理</div>
                 <router-link to="/admin/users" class="nav-item" active-class="active">
                     <el-icon>
                         <User />
-                    </el-icon> Users
+                    </el-icon> 用户管理
                 </router-link>
                 <router-link to="/admin/courses" class="nav-item" active-class="active">
                     <el-icon>
                         <Reading />
-                    </el-icon> Courses Audit
+                    </el-icon> 课程审核
                 </router-link>
                 <router-link to="/admin/categories" class="nav-item" active-class="active">
                     <el-icon>
                         <Collection />
-                    </el-icon> Categories
+                    </el-icon> 分类管理
                 </router-link>
 
-                <div class="nav-section">SYSTEM</div>
+                <div class="nav-section">系统运维</div>
                 <router-link to="/admin/storage" class="nav-item" active-class="active">
                     <el-icon>
                         <Box />
-                    </el-icon> Storage
+                    </el-icon> 资源存储
                 </router-link>
                 <router-link to="/admin/notices" class="nav-item" active-class="active">
                     <el-icon>
                         <Bell />
-                    </el-icon> Notices
+                    </el-icon> 系统公告
                 </router-link>
                 <router-link to="/admin/logs" class="nav-item" active-class="active">
                     <el-icon>
                         <Monitor />
-                    </el-icon> System Logs
+                    </el-icon> 运行日志
                 </router-link>
             </nav>
 

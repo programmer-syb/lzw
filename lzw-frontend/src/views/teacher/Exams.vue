@@ -175,6 +175,18 @@ const openExamDialog = () => {
 }
 
 const handleCreateExam = async () => {
+    // 1. 非空校验
+    if (!examForm.value.title || !examForm.value.startTime || !examForm.value.endTime) {
+        return ElMessage.warning('请填写完整的考试名称和起止时间')
+    }
+    
+    // 2. 时间逻辑校验
+    const start = new Date(examForm.value.startTime).getTime()
+    const end = new Date(examForm.value.endTime).getTime()
+    if (end <= start) {
+        return ElMessage.warning('结束时间必须晚于开始时间！')
+    }
+
     try {
         await request.post('/exam/add', { ...examForm.value, courseId: activeCourseId.value })
         ElMessage.success('创建成功')

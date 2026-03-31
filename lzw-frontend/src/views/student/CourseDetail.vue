@@ -55,9 +55,7 @@
                                 </div>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane label="讨论交流" name="discussion">
-                            <p class="empty-tip">讨论区火热建设中...</p>
-                        </el-tab-pane>
+                        
                     </el-tabs>
                 </div>
             </div>

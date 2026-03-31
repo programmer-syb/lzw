@@ -2,11 +2,11 @@
     <div class="saas-page" v-loading="loading">
         <div class="page-header">
             <div class="header-left">
-                <h1 class="page-title">System Notices</h1>
+                <h1 class="page-title">系统公告</h1>
                 <p class="page-desc">Broadcast announcements to all users across the platform.</p>
             </div>
             <div class="header-right">
-                <button class="saas-btn-primary" @click="dialogVisible = true">Publish Notice</button>
+                <button class="saas-btn-primary" @click="dialogVisible = true">发布公告</button>
             </div>
         </div>
 

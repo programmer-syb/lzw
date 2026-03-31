@@ -2,11 +2,11 @@
     <div class="saas-page" v-loading="loading">
         <div class="page-header">
             <div class="header-left">
-                <h1 class="page-title">Categories</h1>
+                <h1 class="page-title">分类管理</h1>
                 <p class="page-desc">Define areas of study and organize platform content.</p>
             </div>
             <div class="header-right">
-                <button class="saas-btn-primary" @click="openDialog()">Create Category</button>
+                <button class="saas-btn-primary" @click="openDialog()">创建分类</button>
             </div>
         </div>
 
